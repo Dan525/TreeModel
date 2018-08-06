@@ -36,7 +36,7 @@ class FileTreeApp extends JFrame {
         container.setLayout(new BorderLayout());
 
         //Полоса прокрутки        
-        JScrollPane scrollpane = new JScrollPane(tree);        
+        JScrollPane scrollPane = new JScrollPane(tree);
         
         //Panel
         JPanel panel = new JPanel();
@@ -54,7 +54,7 @@ class FileTreeApp extends JFrame {
         panel.add(button);
         
         //Add to container
-        container.add(scrollpane, BorderLayout.CENTER);
+        container.add(scrollPane, BorderLayout.CENTER);
         container.add(panel, BorderLayout.SOUTH);
 
         this.setSize(600,600);

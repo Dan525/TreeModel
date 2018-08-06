@@ -1,15 +1,14 @@
 package com.mycompany.jtreemvcmodel;
 
-import java.awt.Color;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
- * Created by Daniil on 04.08.2018.
+ *
+ * @author daniil_pozdeev
  */
 public class ButtonNewFileListener implements ActionListener {
 
@@ -17,11 +16,10 @@ public class ButtonNewFileListener implements ActionListener {
     private FileTreeModel model;
     private JTextField text;    
 
-    public ButtonNewFileListener(FileSelectionListener fl, FileTreeModel model, JTextField text) {
+    ButtonNewFileListener(FileSelectionListener fl, FileTreeModel model, JTextField text) {
         this.fl = fl;
         this.model = model;
         this.text = text;
-        
     }
 
     @Override

@@ -1,26 +1,26 @@
 package com.mycompany.jtreemvcmodel;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.io.File;
 
 /**
- * Created by Daniil on 04.08.2018.
+ *
+ * @author daniil_pozdeev
  */
-public class FileTreeApp extends JFrame {
+class FileTreeApp extends JFrame {
 
-    public FileTreeApp() {
+    FileTreeApp() {
 
         //Window
         super("Файловая система");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
         //Модель дерева
-        FileTreeModel model = new FileTreeModel();        
+        File root = File.listRoots()[0];
+        FileTreeModel model = new FileTreeModel(root);
 
         //Дерево
         JTree tree = new JTree();
@@ -40,7 +40,6 @@ public class FileTreeApp extends JFrame {
         
         //Panel
         JPanel panel = new JPanel();
-        //panel.setLayout(new GridLayout(1,3,2,2));
         panel.setLayout(new FlowLayout());
         panel.add(new JLabel("Имя файла:"));
 
@@ -57,6 +56,7 @@ public class FileTreeApp extends JFrame {
         //Add to container
         container.add(scrollpane, BorderLayout.CENTER);
         container.add(panel, BorderLayout.SOUTH);
-        
+
+        this.setSize(600,600);
     }
 }

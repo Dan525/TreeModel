@@ -18,12 +18,14 @@ import java.util.Collections;
 public class FileTreeModel implements TreeModel {
 
     private final ArrayList<TreeModelListener> listeners = new ArrayList<>();
-    protected File root;
-    ArrayList<File> pathList;
+    private File root;
     private File[] path;
+    private int[] childIndices = new int[1];
+    private File[] children = new File[1];
 
-    public FileTreeModel() {
-        this.root = null;
+
+    FileTreeModel(File root) {
+        this.root = root;
     }
 
     @Override
@@ -64,9 +66,9 @@ public class FileTreeModel implements TreeModel {
         if (children == null) {
             return -1;
         }
-        String childname = ((File) child).getName();
+        String childName = ((File) child).getName();
         for (int i = 0; i < children.length; i++) {
-            if (childname.equals(children[i])) {
+            if (childName.equals(children[i])) {
                 return i;
             }
         }
@@ -74,43 +76,50 @@ public class FileTreeModel implements TreeModel {
     }
 
     @Override
-    public void valueForPathChanged(TreePath path, Object newvalue) {
+    public void valueForPathChanged(TreePath path, Object newValue) {
     }
 
-    public void fireAddFile(File file) {
-        String fileName = file.getName();
-        String[] listParentFileNames = file.getParentFile().list();
-
-        int[] childIndices = new int[1];
-        File[] children = new File[1];
-
-        for (int i = 0; i < listParentFileNames.length; i++) {
-            if (listParentFileNames[i].equals(fileName)) {
-                childIndices[0] = i;
-                children[0] = file.getParentFile().listFiles()[i];
-            }
-        }
-
-        pathList = new ArrayList<>();
-        fillPathForEvent(file);
-        path = new File[pathList.size()];
-        Collections.reverse(pathList);
-        path = pathList.toArray(path);
-
+    void fireAddFile(File file) {
+        getPathForEvent(file);
+        getNewChildrenAndIndices(file);
         TreeModelEvent evt = new TreeModelEvent(this, path, childIndices, children);
         for (TreeModelListener l : listeners) {
             l.treeNodesInserted(evt);
         }
     }
 
-    public void fillPathForEvent(File child) {
+    private void getNewChildrenAndIndices (File file) {
+        String fileName = file.getName();
+        String[] listParentFileNames = file.getParentFile().list();
+        File[] listParentFiles = file.getParentFile().listFiles();
+
+        if (listParentFileNames != null) {
+            for (int i = 0; i < listParentFileNames.length; i++) {
+                if (listParentFileNames[i].equals(fileName)) {
+                    childIndices[0] = i;
+                    if (listParentFiles != null)
+                        children[0] = listParentFiles[i];
+                }
+            }
+        }
+    }
+
+    private ArrayList<File> fillPathList(ArrayList<File> pathList, File child) {
         File parent = child.getParentFile();
-        if (!parent.equals((File) this.getRoot())) {
+        if (!parent.equals(this.getRoot())) {
             pathList.add(parent);
-            fillPathForEvent(parent);
+            fillPathList(pathList, parent);
         } else {
             pathList.add(parent);
         }
+        return pathList;
+    }
+
+    private void getPathForEvent(File file) {
+        ArrayList<File> pathList = fillPathList(new ArrayList<>(), file);
+        path = new File[pathList.size()];
+        Collections.reverse(pathList);
+        path = pathList.toArray(path);
     }
 
     @Override

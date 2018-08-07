@@ -52,23 +52,23 @@ public class FileTreeModel implements TreeModel {
         if (parent == null) {
             return File.listRoots()[index];
         } else {
-        String[] children = ((File) parent).list();
-        if ((children == null) || (index >= children.length)) {
+        String[] childrenNames = ((File) parent).list();
+        if ((childrenNames == null) || (index >= childrenNames.length)) {
             return null;
         }
-        return new File((File) parent, children[index]);
+        return new File((File) parent, childrenNames[index]);
         }
     }
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-        String[] children = ((File) parent).list();
-        if (children == null) {
+        String[] childrenNames = ((File) parent).list();
+        if (childrenNames == null) {
             return -1;
         }
         String childName = ((File) child).getName();
-        for (int i = 0; i < children.length; i++) {
-            if (childName.equals(children[i])) {
+        for (int i = 0; i < childrenNames.length; i++) {
+            if (childName.equals(childrenNames[i])) {
                 return i;
             }
         }

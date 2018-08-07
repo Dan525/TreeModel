@@ -18,10 +18,10 @@ import java.util.Collections;
 public class FileTreeModel implements TreeModel {
 
     private final ArrayList<TreeModelListener> listeners = new ArrayList<>();
-    private FileFacade root;    
+    private File root;
 
     FileTreeModel() {
-        this.root = new FileFacade("Мой компьютер");
+        this.root = new File("Мой компьютер");
     }
 
     @Override
@@ -31,22 +31,60 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public boolean isLeaf(Object node) {
-        return ((FileFacade) node).isLeaf();
+        if (node == root) {
+            return false;
+        } else {
+            return ((File) node).isFile();
+        }
     }
 
     @Override
-    public int getChildCount(Object parent) {        
-        return ((FileFacade) parent).getChildCount();
+    public int getChildCount(Object parent) {
+        if (parent == root) {
+            return File.listRoots().length;
+        } else {
+            String[] children = ((File) parent).list();
+            if (children == null) {
+                return 0;
+            }
+            return children.length;
+        }
     }
 
     @Override
-    public Object getChild(Object parent, int index) {        
-        return ((FileFacade) parent).getChild(index);
+    public File getChild(Object parent, int index) {
+        if (parent == root) {
+            return File.listRoots()[index];
+        } else {
+            String[] childrenNames = ((File) parent).list();
+            if ((childrenNames == null) || (index >= childrenNames.length)) {
+                return null;
+            }
+            return new File((File) parent, childrenNames[index]);
+        }
     }
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-        return ((FileFacade) parent).getIndexOfChild(child);
+        File[] childrenFiles;
+        if (parent == root) {
+            childrenFiles = File.listRoots();
+            if (childrenFiles == null) {
+                return -1;
+            }
+        } else {
+            childrenFiles = ((File) parent).listFiles();
+            if (childrenFiles == null) {
+                return -1;
+            }
+        }
+        String childName = ((File) child).getName();
+        for (int i = 0; i < childrenFiles.length; i++) {
+            if (childName.equals(childrenFiles[i].getName())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -54,10 +92,9 @@ public class FileTreeModel implements TreeModel {
     }
 
     void fireAddFile(File file) {
-        FileFacade fileFacade = new FileFacade(file);
-        FileFacade[] path = getPathForEvent(fileFacade);
+        File[] path = getPathForEvent(file);
         int[] childIndices = getNewChildIndices(file);
-        FileFacade[] children = getNewChildren(fileFacade);
+        File[] children = getNewChildren(file);
         TreeModelEvent evt = new TreeModelEvent(this, path, childIndices, children);
         for (TreeModelListener l : listeners) {
             l.treeNodesInserted(evt);
@@ -79,8 +116,8 @@ public class FileTreeModel implements TreeModel {
         return childIndices;
     }
     
-    private FileFacade[] getNewChildren (File file) {
-        FileFacade[] children = new FileFacade[1];
+    private File[] getNewChildren (File file) {
+        File[] children = new File[1];
         String fileName = file.getName();
         String[] listParentFileNames = file.getParentFile().list();
         File[] listParentFiles = file.getParentFile().listFiles();
@@ -88,19 +125,19 @@ public class FileTreeModel implements TreeModel {
         if (listParentFileNames != null) {
             for (int i = 0; i < listParentFileNames.length; i++) {
                 if (listParentFileNames[i].equals(fileName)) {
-                    children[0] = new FileFacade(listParentFiles[i]);
+                    children[0] = listParentFiles[i];
                 }
             }
         }
         return children;
     }
 
-    private ArrayList<FileFacade> fillPathList(ArrayList<FileFacade> pathList, FileFacade child) {
-        FileFacade parent = child.getParent();
+    private ArrayList<File> fillPathList(ArrayList<File> pathList, File child) {
+        File parent;
         if (child.getParentFile() == null) {
-            pa            
+            parent = root;
         } else {
-            File parent = child.getParentFile();
+            parent = child.getParentFile();
         }
         
         if (!parent.equals(this.getRoot())) {
@@ -112,9 +149,9 @@ public class FileTreeModel implements TreeModel {
         return pathList;
     }
 
-    private FileFacade[] getPathForEvent(FileFacade fileFacade) {
-        ArrayList<FileFacade> pathList = fillPathList(new ArrayList<>(), fileFacade);
-        FileFacade[] path = new FileFacade[pathList.size()];
+    private File[] getPathForEvent(File file) {
+        ArrayList<File> pathList = fillPathList(new ArrayList<>(), file);
+        File[] path = new File[pathList.size()];
         Collections.reverse(pathList);
         path = pathList.toArray(path);
         return path;

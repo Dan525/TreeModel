@@ -3,7 +3,6 @@ package com.mycompany.jtreemvcmodel;
 import javax.swing.*;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.io.File;
 
 /**
  *
@@ -19,11 +18,13 @@ class FileTreeApp extends JFrame {
 
 
         //Модель дерева
-        File root = File.listRoots()[0];
-        FileTreeModel model = new FileTreeModel(root);
+        FileTreeModel model = new FileTreeModel();
 
-        //Дерево
-        JTree tree = new JTree();
+        //Дерево        
+        Theme theme = new LightTheme();
+        JTree tree = new JTreeFactory().setTheme(theme);
+        
+        //JTree tree = new JTree();
         tree.setModel(model);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 

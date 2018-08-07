@@ -10,6 +10,6 @@ package com.mycompany.jtreemvcmodel;
  * @author daniil_pozdeev
  */
 public class FileFacade {
-    
+    private Object root;
 
 }

@@ -15,7 +15,7 @@ public class FileFacade implements Facade {
     
     private File file;
     
-    public FileFacade(File file) {
+    FileFacade(File file) {
         this.file = file;
     }
 
@@ -61,7 +61,7 @@ public class FileFacade implements Facade {
         return file;
     }
     
-    public Facade getParent() {
+    Facade getParent() {
         File parent = this.getFile().getParentFile();
         if (parent == null)
             return new RootFacade();

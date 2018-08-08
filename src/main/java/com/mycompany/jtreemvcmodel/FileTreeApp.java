@@ -27,6 +27,7 @@ class FileTreeApp extends JFrame {
         //JTree tree = new JTree();
         tree.setModel(model);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        //tree.setRootVisible(false);
 
         //Add Selection Listener to Tree
         FileSelectionListener fl = new FileSelectionListener();

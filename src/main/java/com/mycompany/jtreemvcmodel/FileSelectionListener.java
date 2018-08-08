@@ -16,10 +16,10 @@ public class FileSelectionListener implements TreeSelectionListener {
     @Override
     public void valueChanged(TreeSelectionEvent e) {
         JTree tree = (JTree) e.getSource();
-        File parent = (File) tree.getLastSelectedPathComponent();
+        Facade parent = (Facade) tree.getLastSelectedPathComponent();
         filePath = null;
-        if (parent != null) {
-            filePath = parent.getPath();
+        if (parent != null && (parent instanceof FileFacade)) {
+            filePath = ((FileFacade) parent).getFile().getPath();
         }        
     }
 

@@ -29,7 +29,7 @@ public class ButtonNewFileListener implements ActionListener {
             boolean isCreated = file.mkdir();  
             
             if (isCreated) {                
-                model.fireAddFile(file);
+                model.fireAddFile(new FileFacade(file));
                 text.setText("");
                 text.setBackground(Color.WHITE);
             } else {

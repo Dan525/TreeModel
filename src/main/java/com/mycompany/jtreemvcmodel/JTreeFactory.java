@@ -15,7 +15,8 @@ public class JTreeFactory {
     
     public JTree setTheme(Theme theme) {
         JTree tree = new JTree();
-        theme.setup(tree);
+        if (theme != null)
+            theme.setup(tree);
         return tree;
     }
     

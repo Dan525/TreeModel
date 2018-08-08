@@ -82,18 +82,6 @@ public class FileTreeModel implements TreeModel {
     private Facade[] getNewChildren (FileFacade file) {
         Facade[] children = new Facade[1];
         children[0] = file;
-//        File child = file.getFile();
-//        String fileName = child.getName();
-//        String[] listParentFileNames = child.getParentFile().list();
-//        File[] listParentFiles = child.getParentFile().listFiles();
-//
-//        if (listParentFileNames != null) {
-//            for (int i = 0; i < listParentFileNames.length; i++) {
-//                if (listParentFileNames[i].equals(fileName)) {
-//                    children[0] = new FileFacade(listParentFiles[i]);
-//                }
-//            }
-//        }
         return children;
     }
 

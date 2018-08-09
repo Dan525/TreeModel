@@ -20,9 +20,8 @@ class FileTreeApp extends JFrame {
         //Модель дерева
         FileTreeModel model = new FileTreeModel();
 
-        //Дерево        
-        Theme theme = null;
-        JTree tree = new JTreeFactory().setTheme(theme);
+        //Дерево 
+        JTree tree = new JTreeFactory().createTree();
         
         //JTree tree = new JTree();
         tree.setModel(model);

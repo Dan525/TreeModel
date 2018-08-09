@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class FileFacade implements Facade {
     
-    private File file;
+    private final File file;
     
     FileFacade(File file) {
         this.file = file;
@@ -34,7 +34,7 @@ public class FileFacade implements Facade {
     }
 
     @Override
-    public FileFacade getChild(int index) {
+    public Facade getChild(int index) {
         String[] childrenNames = file.list();
             if ((childrenNames == null) || (index >= childrenNames.length)) {
                 return null;
@@ -43,7 +43,7 @@ public class FileFacade implements Facade {
     }
 
     @Override
-    public int getIndexOfChild(FileFacade child) {
+    public int getIndexOfChild(Facade child) {
         File[] childrenFiles = file.listFiles();
             if (childrenFiles == null) {
                 return -1;
@@ -57,11 +57,13 @@ public class FileFacade implements Facade {
         return -1;
     }
     
+    @Override
     public File getFile() {
         return file;
     }
     
-    Facade getParent() {
+    @Override
+    public Facade getParent() {
         File parent = this.getFile().getParentFile();
         if (parent == null)
             return new RootFacade();
@@ -79,10 +81,8 @@ public class FileFacade implements Facade {
     
     @Override
     public String toString() {
-        File[] disks = File.listRoots();
-        for (File disk : disks) {
-            if (file.equals(disk))
-                return file.toString();
+        if (file.getParent() == null) {
+            return file.toString();
         }
         return file.getName();
     }

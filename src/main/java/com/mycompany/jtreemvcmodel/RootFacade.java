@@ -6,7 +6,6 @@
 package com.mycompany.jtreemvcmodel;
 
 import java.io.File;
-import java.util.ArrayList;
 
 
 public class RootFacade implements Facade {
@@ -22,12 +21,12 @@ public class RootFacade implements Facade {
     }
 
     @Override
-    public FileFacade getChild(int index) {
+    public Facade getChild(int index) {
         return new FileFacade(File.listRoots()[index]);
     }
 
     @Override
-    public int getIndexOfChild(FileFacade child) {
+    public int getIndexOfChild(Facade child) {
         File[] childrenFiles = File.listRoots();
             if (childrenFiles == null) {
                 return -1;
@@ -49,5 +48,14 @@ public class RootFacade implements Facade {
     @Override
     public String toString() {
         return "Мой компьютер";
+    }
+
+    @Override
+    public Facade getParent() {
+        return null;
+    }
+    
+    public File getFile() {
+        return null;
     }
 }

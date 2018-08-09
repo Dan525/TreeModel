@@ -3,7 +3,6 @@ package com.mycompany.jtreemvcmodel;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import java.io.File;
 
 /**
  *

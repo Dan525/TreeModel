@@ -5,7 +5,7 @@
  */
 package com.mycompany.jtreemvcmodel;
 
-import java.util.ArrayList;
+import java.io.File;
 
 /**
  *
@@ -17,11 +17,11 @@ public interface Facade {
 
     public int getChildCount();
 
-    public FileFacade getChild(int index);
+    public Facade getChild(int index);
 
-    public int getIndexOfChild(FileFacade child);
+    public int getIndexOfChild(Facade child);
     
-    public boolean equals(Object other);
+    public Facade getParent();
     
-    public String toString();
+    public File getFile();
 }

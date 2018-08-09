@@ -12,9 +12,9 @@ import java.io.File;
  */
 public class ButtonNewFileListener implements ActionListener {
 
-    private FileSelectionListener fl;
-    private FileTreeModel model;
-    private JTextField text;    
+    private final FileSelectionListener fl;
+    private final FileTreeModel model;
+    private final JTextField text;    
 
     ButtonNewFileListener(FileSelectionListener fl, FileTreeModel model, JTextField text) {
         this.fl = fl;

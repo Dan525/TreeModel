@@ -13,12 +13,14 @@ import javax.swing.JTree;
  */
 public class JTreeFactory {
     
-    public JTree setTheme(Theme theme) {
+    public JTree createTree(Theme theme) {
         JTree tree = new JTree();
         if (theme != null)
             theme.setup(tree);
         return tree;
     }
     
-    
+    public JTree createTree() {        
+        return new JTree();
+    }
 }

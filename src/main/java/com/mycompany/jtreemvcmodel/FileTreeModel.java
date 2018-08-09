@@ -18,7 +18,7 @@ import java.util.Collections;
 public class FileTreeModel implements TreeModel {
 
     private final ArrayList<TreeModelListener> listeners = new ArrayList<>();
-    private RootFacade root;
+    private final Facade root;
 
     FileTreeModel() {
         this.root = new RootFacade();
@@ -40,66 +40,52 @@ public class FileTreeModel implements TreeModel {
     }
 
     @Override
-    public FileFacade getChild(Object parent, int index) {
+    public Facade getChild(Object parent, int index) {
         return ((Facade) parent).getChild(index);
     }
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-        return ((Facade) parent).getIndexOfChild((FileFacade) child);
+        return ((Facade) parent).getIndexOfChild((Facade) child);
     }
 
     @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
     }
 
-    void fireAddFile(FileFacade file) {
+    void fireAddFile(Facade file) {
         Facade[] path = getPathForEvent(file);
         int[] childIndices = getNewChildIndices(file);
-        Facade[] children = getNewChildren(file);
+        Facade[] children = new Facade[]{file};
         TreeModelEvent evt = new TreeModelEvent(this, path, childIndices, children);
         for (TreeModelListener l : listeners) {
             l.treeNodesInserted(evt);
         }
     }
 
-    private int[] getNewChildIndices (FileFacade file) {
-        int[] childIndices = new int[1];
+    private int[] getNewChildIndices (Facade file) {
         File child = file.getFile();
         String fileName = child.getName();
         String[] listParentFileNames = child.getParentFile().list();
-
-        if (listParentFileNames != null) {
-            for (int i = 0; i < listParentFileNames.length; i++) {
-                if (listParentFileNames[i].equals(fileName)) {
-                    childIndices[0] = i;
-                }
+        for (int i = 0; i < listParentFileNames.length; i++) {
+            if (listParentFileNames[i].equals(fileName)) {
+                return new int[]{i};
             }
         }
-        return childIndices;
-    }
-    
-    private Facade[] getNewChildren (FileFacade file) {
-        Facade[] children = new Facade[1];
-        children[0] = file;
-        return children;
+        return null;
     }
 
-    private ArrayList<Facade> fillPathList(ArrayList<Facade> pathList, FileFacade child) {
-        
-        Facade parent = child.getParent();
-        
-        if (!parent.equals(this.getRoot())) {
-            pathList.add(parent);
-            fillPathList(pathList, (FileFacade) parent);
-        } else {
-            pathList.add(parent);
+    private ArrayList<Facade> fillPathList(Facade child) {
+        ArrayList<Facade> pathList = new ArrayList<>();
+        while (child.getParent() != null) {
+            pathList.add(child);
+            child = child.getParent();
         }
         return pathList;
     }
 
-    private Facade[] getPathForEvent(FileFacade file) {
-        ArrayList<Facade> pathList = fillPathList(new ArrayList<>(), file);
+    private Facade[] getPathForEvent(Facade file) {
+        ArrayList<Facade> pathList = fillPathList(file);
         Facade[] path = new Facade[pathList.size()];
         Collections.reverse(pathList);
         path = pathList.toArray(path);

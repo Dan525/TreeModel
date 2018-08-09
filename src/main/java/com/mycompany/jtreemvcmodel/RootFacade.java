@@ -22,7 +22,8 @@ public class RootFacade implements Facade {
 
     @Override
     public Facade getChild(int index) {
-        return new FileFacade(File.listRoots()[index]);
+        FileFacade file = new FileFacade(File.listRoots()[index]);
+        return file;
     }
 
     @Override
@@ -31,9 +32,9 @@ public class RootFacade implements Facade {
             if (childrenFiles == null) {
                 return -1;
             }
-        String childName = child.getFile().getName();
+        String childName = child.getFile().getPath();
         for (int i = 0; i < childrenFiles.length; i++) {
-            if (childName.equals(childrenFiles[i].getName())) {
+            if (childName.equals(childrenFiles[i].getPath())) {
                 return i;
             }
         }

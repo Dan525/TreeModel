@@ -21,7 +21,8 @@ public class FileTreeModel implements TreeModel {
     private final Facade root;
 
     FileTreeModel() {
-        this.root = new RootFacade();
+        //this.root = new RootFacade();
+        this.root = new FileFacade(new File("C:\\NewFolders\\111"));
     }
 
     @Override
@@ -75,18 +76,20 @@ public class FileTreeModel implements TreeModel {
         return null;
     }
 
-    private ArrayList<Facade> fillPathList(Facade child) {
-        ArrayList<Facade> pathList = new ArrayList<>();
-        while (child.getParent() != null) {
-            Facade parent = child.getParent();
+    private ArrayList<Facade> fillPathList(ArrayList<Facade> pathList, Facade child) {
+        Facade parent = child.getParent();
+        
+        if (!parent.equals(root)) {
             pathList.add(parent);
-            child = parent;
+            fillPathList(pathList, parent);
+        } else {
+            pathList.add(parent);
         }
         return pathList;
     }
 
     private Facade[] getPathForEvent(Facade file) {
-        ArrayList<Facade> pathList = fillPathList(file);
+        ArrayList<Facade> pathList = fillPathList(new ArrayList<>(), file);
         Facade[] path = new Facade[pathList.size()];
         Collections.reverse(pathList);
         return pathList.toArray(path);

@@ -55,7 +55,6 @@ public class FileTreeModel implements TreeModel {
     }
 
     void fireAddFile(Facade file, TreePath path) {
-        //Facade[] path = getPathForEvent(file);
         int[] childIndices = getNewChildIndices(file);
         Facade[] children = new Facade[]{file};
         TreeModelEvent evt = new TreeModelEvent(this, path, childIndices, children);
@@ -74,25 +73,6 @@ public class FileTreeModel implements TreeModel {
             }
         }
         return null;
-    }
-
-    private ArrayList<Facade> fillPathList(ArrayList<Facade> pathList, Facade child) {
-        Facade parent = child.getParent();
-        
-        if (!parent.equals(root)) {
-            pathList.add(parent);
-            fillPathList(pathList, parent);
-        } else {
-            pathList.add(parent);
-        }
-        return pathList;
-    }
-
-    private Facade[] getPathForEvent(Facade file) {
-        ArrayList<Facade> pathList = fillPathList(new ArrayList<>(), file);
-        Facade[] path = new Facade[pathList.size()];
-        Collections.reverse(pathList);
-        return pathList.toArray(path);
     }
 
     @Override

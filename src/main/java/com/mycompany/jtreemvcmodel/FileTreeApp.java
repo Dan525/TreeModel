@@ -40,14 +40,14 @@ class FileTreeApp extends JFrame {
         //Panel
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
-        panel.add(new JLabel("Имя файла:"));
+        panel.add(new JLabel("Имя папки:"));
 
         //Text        
         JTextField text = new JTextField(30);
         panel.add(text);
 
         //Кнопка        
-        JButton button = new JButton("Создать файл");
+        JButton button = new JButton("Создать папку");
         ButtonNewFileListener bl = new ButtonNewFileListener(fl, model, text);
         button.addActionListener(bl);
         panel.add(button);

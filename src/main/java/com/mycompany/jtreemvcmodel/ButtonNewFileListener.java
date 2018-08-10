@@ -28,7 +28,7 @@ public class ButtonNewFileListener implements ActionListener {
             File file = new File(fl.getFilePath(), text.getText());            
             boolean isCreated = file.mkdir();  
             
-            if (isCreated) {                
+            if (isCreated) {   
                 model.fireAddFile(new FileFacade(file));
                 text.setText("");
                 text.setBackground(Color.WHITE);

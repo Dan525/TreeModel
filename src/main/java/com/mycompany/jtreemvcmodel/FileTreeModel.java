@@ -21,7 +21,7 @@ public class FileTreeModel implements TreeModel {
     private File root;
 
     FileTreeModel() {
-        this.root = new File("Мой компьютер");
+        this.root = new File("C:\\NewFolders");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public boolean isLeaf(Object node) {
-        if (node == root) {
+        if (node.equals(new File("Мой компьютер"))) {
             return false;
         } else {
             return ((File) node).isFile();
@@ -40,7 +40,7 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public int getChildCount(Object parent) {
-        if (parent == root) {
+        if (parent.equals(new File("Мой компьютер"))) {
             return File.listRoots().length;
         } else {
             String[] children = ((File) parent).list();
@@ -53,7 +53,7 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public File getChild(Object parent, int index) {
-        if (parent == root) {
+        if (parent.equals(new File("Мой компьютер"))) {
             return File.listRoots()[index];
         } else {
             String[] childrenNames = ((File) parent).list();
@@ -67,7 +67,7 @@ public class FileTreeModel implements TreeModel {
     @Override
     public int getIndexOfChild(Object parent, Object child) {
         File[] childrenFiles;
-        if (parent == root) {
+        if (parent.equals(new File("Мой компьютер"))) {
             childrenFiles = File.listRoots();
             if (childrenFiles == null) {
                 return -1;

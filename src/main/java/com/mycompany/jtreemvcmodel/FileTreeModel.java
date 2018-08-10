@@ -102,18 +102,17 @@ public class FileTreeModel implements TreeModel {
     }
 
     private int[] getNewChildIndices (File file) {
-        int[] childIndices = new int[1];
         String fileName = file.getName();
         String[] listParentFileNames = file.getParentFile().list();
 
         if (listParentFileNames != null) {
             for (int i = 0; i < listParentFileNames.length; i++) {
                 if (listParentFileNames[i].equals(fileName)) {
-                    childIndices[0] = i;
+                    return new int[]{i};
                 }
             }
         }
-        return childIndices;
+        return null;
     }
     
     private File[] getNewChildren (File file) {
@@ -153,8 +152,7 @@ public class FileTreeModel implements TreeModel {
         ArrayList<File> pathList = fillPathList(new ArrayList<>(), file);
         File[] path = new File[pathList.size()];
         Collections.reverse(pathList);
-        path = pathList.toArray(path);
-        return path;
+        return pathList.toArray(path);
     }
 
     @Override

@@ -21,8 +21,8 @@ public class FileTreeModel implements TreeModel {
     private final Facade root;
 
     FileTreeModel() {
-        //this.root = new RootFacade();
-        this.root = new FileFacade(new File("C:\\NewFolders\\111"));
+        this.root = new RootFacade();
+        //this.root = new FileFacade(new File("C:\\tmp_screens\\111"));
     }
 
     @Override
@@ -54,8 +54,8 @@ public class FileTreeModel implements TreeModel {
     public void valueForPathChanged(TreePath path, Object newValue) {
     }
 
-    void fireAddFile(Facade file) {
-        Facade[] path = getPathForEvent(file);
+    void fireAddFile(Facade file, TreePath path) {
+        //Facade[] path = getPathForEvent(file);
         int[] childIndices = getNewChildIndices(file);
         Facade[] children = new Facade[]{file};
         TreeModelEvent evt = new TreeModelEvent(this, path, childIndices, children);

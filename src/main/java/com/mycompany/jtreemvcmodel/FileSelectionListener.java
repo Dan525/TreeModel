@@ -3,6 +3,7 @@ package com.mycompany.jtreemvcmodel;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -11,18 +12,25 @@ import javax.swing.event.TreeSelectionListener;
 public class FileSelectionListener implements TreeSelectionListener {
 
     private String filePath;
+    private TreePath treePath;
 
     @Override
     public void valueChanged(TreeSelectionEvent e) {
         JTree tree = (JTree) e.getSource();
+        System.out.println(tree.isExpanded(tree.getSelectionPath()));
         Facade parent = (Facade) tree.getLastSelectedPathComponent();
+        treePath = tree.getSelectionPath();
         filePath = null;
         if (parent != null && (parent instanceof FileFacade)) {
-            filePath = ((FileFacade) parent).getFile().getPath();
+            filePath = parent.getFile().getPath();
         }        
     }
 
     String getFilePath() {
         return filePath;
+    }
+
+    public TreePath getTreePath() {
+        return treePath;
     }
 }

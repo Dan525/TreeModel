@@ -64,7 +64,7 @@ public class FileFacade implements Facade {
     
     @Override
     public Facade getParent() {
-        File parent = this.getFile().getParentFile();
+        File parent = file.getParentFile();
         if (parent == null)
             return new RootFacade();
         return new FileFacade(parent);
@@ -75,8 +75,7 @@ public class FileFacade implements Facade {
         if (!(other instanceof FileFacade))
             return false;
         File otherFile = ((FileFacade)other).getFile();
-        File thisFile = this.getFile();
-        return (otherFile.equals(thisFile));
+        return otherFile.equals(file);
     }
     
     @Override

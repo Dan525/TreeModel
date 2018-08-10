@@ -48,9 +48,9 @@ public class FileFacade implements Facade {
             if (childrenFiles == null) {
                 return -1;
             }
-        String childName = child.getFile().getName();
+        String childName = child.getFile().getPath();
         for (int i = 0; i < childrenFiles.length; i++) {
-            if (childName.equals(childrenFiles[i].getName())) {
+            if (childName.equals(childrenFiles[i].getPath())) {
                 return i;
             }
         }

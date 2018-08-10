@@ -78,7 +78,7 @@ public class FileTreeModel implements TreeModel {
     private ArrayList<Facade> fillPathList(Facade child) {
         ArrayList<Facade> pathList = new ArrayList<>();
         while (child.getParent() != null) {
-            pathList.add(child);
+            pathList.add(child.getParent());
             child = child.getParent();
         }
         return pathList;

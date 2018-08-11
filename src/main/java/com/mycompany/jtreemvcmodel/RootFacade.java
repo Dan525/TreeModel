@@ -7,7 +7,10 @@ package com.mycompany.jtreemvcmodel;
 
 import java.io.File;
 
-
+/**
+ *
+ * @author daniil_pozdeev
+ */
 public class RootFacade implements Facade {
     
     @Override
@@ -22,8 +25,7 @@ public class RootFacade implements Facade {
 
     @Override
     public Facade getChild(int index) {
-        FileFacade file = new FileFacade(File.listRoots()[index]);
-        return file;
+        return new FileFacade(File.listRoots()[index]);
     }
 
     @Override

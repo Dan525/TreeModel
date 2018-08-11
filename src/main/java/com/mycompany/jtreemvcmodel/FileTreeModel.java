@@ -5,11 +5,12 @@
  */
 package com.mycompany.jtreemvcmodel;
 
-import javax.swing.event.*;
-import javax.swing.tree.*;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  *

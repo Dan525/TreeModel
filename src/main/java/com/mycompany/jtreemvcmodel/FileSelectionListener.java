@@ -17,7 +17,6 @@ public class FileSelectionListener implements TreeSelectionListener {
     @Override
     public void valueChanged(TreeSelectionEvent e) {
         JTree tree = (JTree) e.getSource();
-        System.out.println(tree.isExpanded(tree.getSelectionPath()));
         Facade parent = (Facade) tree.getLastSelectedPathComponent();
         treePath = tree.getSelectionPath();
         filePath = null;
@@ -30,7 +29,7 @@ public class FileSelectionListener implements TreeSelectionListener {
         return filePath;
     }
 
-    public TreePath getTreePath() {
+    TreePath getTreePath() {
         return treePath;
     }
 }

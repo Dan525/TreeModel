@@ -15,10 +15,16 @@ class FileTreeApp extends JFrame {
 
     FileTreeApp() {
 
+
         //Window
         super("Файловая система");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //Модель дерева
         FileTreeModel treeModel = new FileTreeModel();
@@ -27,6 +33,7 @@ class FileTreeApp extends JFrame {
         JTree tree = new JTreeFactory().createTree();
         tree.setModel(treeModel);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.setEditable(true);
         //tree.setRootVisible(false);    
 
         //Таблица

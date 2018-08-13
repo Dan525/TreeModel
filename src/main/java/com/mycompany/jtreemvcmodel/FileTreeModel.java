@@ -52,6 +52,7 @@ public class FileTreeModel implements TreeModel {
 
     @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
+        
     }
 
     public void fireAddFile(Facade file, TreePath path) {

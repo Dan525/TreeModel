@@ -3,6 +3,9 @@ package com.mycompany.jtreemvcmodel;
 import javax.swing.*;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  *
@@ -18,24 +21,30 @@ class FileTreeApp extends JFrame {
 
 
         //Модель дерева
-        FileTreeModel model = new FileTreeModel();
+        FileTreeModel treeModel = new FileTreeModel();
 
         //Дерево
         JTree tree = new JTreeFactory().createTree();
-        tree.setModel(model);
+        tree.setModel(treeModel);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        //tree.setRootVisible(false);
+        //tree.setRootVisible(false);    
 
+        //Таблица
+        FileTableModel tableModel = new FileTableModel(treeModel);
+        JTable table = new JTable(tableModel);
+        
         //Add Selection Listener to Tree
-        FileSelectionListener fl = new FileSelectionListener();
-        tree.addTreeSelectionListener(fl);
+        FileSelectionListener fl = new FileSelectionListener(tableModel);
+        tree.addTreeSelectionListener(fl);   
 
         //Разметка окна
         Container container = this.getContentPane();
         container.setLayout(new BorderLayout());
 
         //Полоса прокрутки        
-        JScrollPane scrollPane = new JScrollPane(tree);
+        JScrollPane treeScrollPane = new JScrollPane(tree);
+        treeScrollPane.setPreferredSize(new Dimension(400,600));
+        JScrollPane tableScrollPane = new JScrollPane(table);
         
         //Panel
         JPanel panel = new JPanel();
@@ -48,14 +57,31 @@ class FileTreeApp extends JFrame {
 
         //Кнопка        
         JButton button = new JButton("Создать папку");
-        ButtonNewFileListener bl = new ButtonNewFileListener(fl, model, text);
-        button.addActionListener(bl);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (fl.getFilePath() != null) {
+                    File file = new File(fl.getFilePath(), text.getText());
+                    boolean isCreated = file.mkdir();
+
+                    if (isCreated) {
+                        treeModel.fireAddFile(new FileFacade(file), fl.getTreePath());
+                        tableModel.fireAddFile(new FileFacade(file));
+                        text.setText("");
+                        text.setBackground(Color.WHITE);
+                    } else {
+                        text.setBackground(Color.YELLOW);
+                    }
+                }
+            }
+        });
         panel.add(button);
         
         //Add to container
-        container.add(scrollPane, BorderLayout.CENTER);
+        container.add(treeScrollPane, BorderLayout.WEST);
         container.add(panel, BorderLayout.SOUTH);
+        container.add(tableScrollPane, BorderLayout.CENTER);
 
-        this.setSize(600,600);
+        this.setSize(1000,600);
     }
 }
